@@ -52,7 +52,7 @@ export class AppComponent {
     effectAllowed: 'move',
     disable: false,
     handle: false,
-    data: [] as any[],
+    data: [] as any[],evfea
   };
 
   private readonly verticalLayout: DropzoneLayout = {
