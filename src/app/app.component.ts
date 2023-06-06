@@ -76,46 +76,6 @@ export class AppComponent {
       ...this.draggable,
       data: this.userRankingList,
     };
-
-    const selectOptions = this._formBuilder.array(
-      this.generateSelectOptions().map((option) => {
-        return this._formBuilder.control(option);
-      })
-    );
-
-    const optionList = this._formBuilder.array(
-      this.userRankingList.map((option) => {
-        return this._formBuilder.control(option);
-      })
-    );
-
-    this._rankingForm = this._formBuilder.group({
-      optionList: optionList,
-      selectIdx: selectOptions,
-    });
-  }
-
-  private generateSelectOptions(defaultValue?: number) {
-    let isModified = [];
-
-    if (defaultValue) {
-      isModified = [];
-      for (let i = 1; i <= this.draggable.data.length; i++) {
-        isModified.push({
-          value: i,
-          text: i.toString(),
-          selected: i === defaultValue,
-        });
-      }
-    } else {
-      isModified = Array.from(
-        { length: this.userRankingList?.length },
-        (_, i) => i + 1
-      );
-    }
-    console.log('isModified', isModified);
-
-    return isModified;
   }
 
   public onDragStart(event: DragEvent, item: any) {
@@ -180,7 +140,6 @@ export class AppComponent {
       }
 
       this.emitUpdate(list);
-      this.updateForm(list);
     }
 
     //end function
@@ -188,39 +147,62 @@ export class AppComponent {
     return list;
   }
 
-  updateForm(list: any[] = []) {
-    // console.log('list before', this._rankingForm.get('optionList'));
-    this._rankingForm.get('optionList')!.setValue(list); // Mettre à jour la valeur du
+  onSelectChange(draggable: any, index: number, event: Event) {
+    const updatedIndex = [...Object.keys(draggable.data)];
+    // Modifier l'index du tableau par rapport à la sélection
+    this.onMoveSelectIndex(event, index, updatedIndex);
 
-    // const selectOptions = this.generateSelectOptions();
-    //  this.selectIdx.controls.forEach((control, index) => {
-    //   console.log('control, index', control, index);
-    //    const optionValue = selectOptions[index];
-    //    console.log('optionValue', optionValue);
-    //console.log('defaultValue', optionValue.defaultValue);
-    //  control.patchValue(optionValue);
-    // });
+    // Mettre à jour les options de déplacement
+    this.onDragAndDropOption(event, index);
 
-    const defaultValue = list.findIndex((option) => option.defaultValue) + 1;
-    const selectOptions = this.generateSelectOptions(defaultValue);
-
-    this.selectIdx.controls.forEach((control, index) => {
-      const optionValue = selectOptions[index];
-      console.log('defaultValue', control);
-      control.patchValue(optionValue);
-      console.log('defaultValue', control);
-    });
+    // Réinitialiser les index des sélecteurs sans modifier les index des options
+    this.resetIndex(index);
   }
 
-  updateForm2(list: any[] = []) {
-    this._rankingForm.get('optionList')!.setValue(list);
+  onMoveSelectIndex(
+    event: Event | DndDropEvent,
+    fromIndex?: number,
+    tab?: any[]
+  ): Array<any> {
+    let list = tab;
+    const indexMax = list?.length - 1;
+    let idx = this._getEndIndex(event);
+    let START_INDEX = 0;
 
-    const defaultValue = list.findIndex((option) => option.defaultValue) + 1;
-    const selectOptions = this.generateSelectOptions(defaultValue);
+    if (!!this._fromIndex) {
+      START_INDEX = this._fromIndex;
+    }
 
-    this.selectIdx.controls.forEach((control, index) => {
-      control.patchValue(selectOptions[index]);
-    });
+    if (!!fromIndex) {
+      START_INDEX = fromIndex;
+    }
+
+    const END_INDEX = idx;
+    const diff = START_INDEX - END_INDEX;
+
+    let canDragAndDrop = this._allowDragAndDrop(START_INDEX, END_INDEX);
+
+    if (canDragAndDrop) {
+      if (END_INDEX === indexMax || END_INDEX === 0) {
+        list = this._moveIdxExtremity(START_INDEX, END_INDEX, list);
+      } else {
+        if (Math.abs(diff) === 1) {
+          list = this._moveCloseIdx(START_INDEX, END_INDEX, list);
+        } else {
+          list = this._moveTwoIdxSameTime(START_INDEX, END_INDEX, list);
+        }
+      }
+    }
+
+    return list;
+  }
+
+  resetIndex(index: any) {
+    // Réinitialiser les index à leur valeur par défaut
+    index = Array.from(
+      { length: this.draggable?.data?.length },
+      (_, i) => i + 1
+    );
   }
 
   private _moveIdxExtremity(

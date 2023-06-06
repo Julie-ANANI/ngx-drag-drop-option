@@ -1,10 +1,12 @@
-<!-- Select simple -->
 <pre>select simple </pre>
 
 <div class="dndList">
-  <div *ngFor="let item of draggable?.data">
-    <select>
-      <option [selected]="!hasMovedItem" value="">-</option>
+  <div *ngFor="let item of draggable?.data; let i = index">
+    <select
+      [(ngModel)]="selectedOptions[i]"
+      (ngModelChange)="onSelectChange(i)"
+    >
+      <option *ngIf="!hasMovedItem" [selected]="true" value="">-</option>
       <option
         *ngFor="
           let option of [].constructor(draggable?.data?.length);
@@ -18,4 +20,3 @@
     <span class="list-item-content">{{ item.content }}</span>
   </div>
 </div>
-<!-- Select simple end -->
