@@ -129,7 +129,10 @@ export class AppComponent {
    * @param {Event | DndDropEvent} event - The drop event.
    * @param {number} [fromIndex] - The index of the item being dragged.
    * @returns {Array} - The updated list of items. **/
-  public onMove(event: Event | DndDropEvent, fromIndex?: number): Array<any> {
+  public onDragAndDropOption(
+    event: Event | DndDropEvent,
+    fromIndex?: number
+  ): Array<any> {
     console.group('ondrop');
     //myfunction
     //let list = this.draggable.data;
@@ -162,7 +165,7 @@ export class AppComponent {
     console.log('END_INDEX', END_INDEX);
 
     if (canDragAndDrop) {
-      console.log('je suis entrée dans mon isDragAndDrop');
+      console.log('je suis entrée dans mon canDragAndDrop');
       if (END_INDEX === indexMax || END_INDEX === 0) {
         console.log('EXTREMITY');
         list = this._moveIdxExtremity(START_INDEX, END_INDEX, list);
