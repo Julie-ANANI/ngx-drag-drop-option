@@ -1,110 +1,21 @@
-<!-- test list 
-<div class="container-fluid">
-  <div class="row">
-    <div class="col">
-      <pre>test option"</pre>
+<!-- Select simple -->
+<pre>select simple </pre>
 
-      <mat-list
-        [class.horizontal]="layout.dndHorizontal"
-        [dndHorizontal]="layout.dndHorizontal"
-        (dndDrop)="onDrop($event, userRankingList)"
-        [dndDraggable]="userRankingList"
-        class="dndList gap-1 d-flex flex-column bg-light rounded-1 shadow-sm"
-        dndDropzone
-        dndEffectAllowed="copyMove"
+<div class="dndList">
+  <div *ngFor="let item of draggable?.data">
+    <select>
+      <option [selected]="!hasMovedItem" value="">-</option>
+      <option
+        *ngFor="
+          let option of [].constructor(draggable?.data?.length);
+          let j = index
+        "
+        [value]="j + 1"
       >
-        <mat-list-item
-          class="dndPlaceholder border rounded-1 bg-opacity-25"
-          dndPlaceholderRef
-        >
-        </mat-list-item>
-
-        <mat-list-item
-          *ngFor="let item of userRankingList"
-          class="border rounded-1 bg-white"
-          [dndDraggable]="item"
-          (dndStart)="onDragStart($event, item)"
-          [dndEffectAllowed]="item.effectAllowed"
-          (dndEnd)="onDragEnd($event)"
-        >
-          <div
-            *ngIf="item.handle"
-            matListItemIcon
-            dndHandlexs
-            class="drag-handle align-self-center mx-3 my-0"
-          >
-            <mat-icon fontIcon="drag_handle"></mat-icon>
-          </div>
-          <span matListItemTitle>{{ item.content }}</span>
-           <span matListItemLine>effectAllowed: {{item.effectAllowed}}</span> 
-        </mat-list-item>
-      </mat-list>
-    </div>
+        {{ j + 1 }}
+      </option>
+    </select>
+    <span class="list-item-content">{{ item.content }}</span>
   </div>
 </div>
- test list end-->
-
-<!-- test list -->
-<div class="container-fluid">
-  <div class="row">
-    <div class="col">
-      <pre>test option formGroup"</pre>
-
-      <form [formGroup]="rankingForm">
-        <div formGroupName="optionList">
-          <div
-            (dndDrop)="onDragAndDropOption($event)"
-            [dndDraggable]="draggable"
-            class="
-              list
-              dndList
-              gap-1
-              d-flex
-              flex-column
-              bg-light
-              rounded-1
-              shadow-sm
-            "
-            dndDropzone
-          >
-            <div
-              class="list-item dndPlaceholder border rounded-1 bg-opacity-25"
-              dndPlaceholderRef
-            ></div>
-
-            <div *ngFor="let item of draggable.data; let i = index">
-              <div
-                [dndDraggable]="item"
-                (dndStart)="onDragStart($event, item)"
-                [dndEffectAllowed]="draggable.effectAllowed"
-                class="border rounded-1 bg-white"
-              >
-                <div
-                  *ngIf="item.handle"
-                  class="drag-handle align-self-center mx-3 my-0"
-                ></div>
-                <select
-                  [id]="identifier + '-select-' + i"
-                  formControlName="{{ i }}"
-                  (change)="onDragAndDropOption($event, i)"
-                >
-                  <option [value]="'-'" [selected]="true" [disabled]="true">
-                    -
-                  </option>
-                  <option
-                    *ngFor="let option of selectIdx.controls; let j = index"
-                    [value]="option.value"
-                  >
-                    {{ option.value }}
-                  </option>
-                </select>
-                <span>{{ item.content }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!-- test list end-->
+<!-- Select simple end -->
