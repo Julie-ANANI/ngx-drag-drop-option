@@ -194,7 +194,17 @@ export class AppComponent {
       }
     }
 
+    this._changeSelectIndex();
     return list;
+  }
+
+  private _changeSelectIndex() {
+    if (this.hasMovedItem === true) {
+      //read ordre index
+      //parcourir chaque valeur du select
+      //et mettre la valeur des index changé
+      //puis reset et mettre la valeur de 1 à n
+    }
   }
 
   resetIndex(index: any) {
@@ -281,6 +291,13 @@ export class AppComponent {
       this.update.emit(list.map((v: any) => v.identifier));
       console.log();
     }
+  }
+
+  setOrResetList() {
+    //this._userRankingList = JSON.parse(JSON.stringify(this._randomizedOptions));
+    this.userRankingList.forEach((element, index) => (element.index = index));
+    this._hasMovedItem = false;
+    this.emitUpdate();
   }
 
   get hasMovedItem(): boolean {
