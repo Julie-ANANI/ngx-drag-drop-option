@@ -24,12 +24,13 @@
     <select
       [id]="identifier + '-select-' + i"
       (change)="onSelectChange(draggable, i, $event)"
+      [value]="selectValues[i]"
     >
       <option disabled [selected]="!hasMovedItem" value="">-</option>
       <option
         *ngFor="let a of [].constructor(draggable?.data?.length); let j = index"
         [value]="j + 1"
-        [disabled]="j === i && hasMovedItem"
+        [disabled]="j === i"
       >
         {{ j + 1 }}
       </option>
