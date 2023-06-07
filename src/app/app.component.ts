@@ -19,6 +19,7 @@ interface DropzoneLayout {
 export class AppComponent {
   @Output() update = new EventEmitter<any>();
   @Input() identifier = 'Limitations';
+  selectValues: number[] = [];
 
   userRankingList: any[] = [
     {
@@ -137,22 +138,28 @@ export class AppComponent {
     return list;
   }
 
-  onSelectChange(draggable: any[], index: number, event: Event) {
+  onSelectChange(draggable: any, index: number, event: Event) {
     this.onDragAndDropOption(event, index);
-    //this.changeSelectIndex(draggable);
+    this.changeSelectIndex(draggable);
   }
 
   changeSelectIndex(draggable: any) {
+    console.log(this.hasMovedItem);
     if (this.hasMovedItem === true) {
-      const updatedIndex = draggable.data.map((_, i) => i + 1);
-      this.resetIndex(updatedIndex);
+      console.log(draggable.data);
+      this.selectValues = draggable.data.map((opt) => opt.identifier);
+      setTimeout(() => {
+        this.resetIndex();
+      }, 1000);
     }
   }
 
-  resetIndex(index: number[]) {
-    this.selectIdx.controls.forEach((control, i) => {
-      control.setValue(index[i]);
-    });
+  resetIndex() {
+    // Réinitialiser les index à leur valeur par défaut
+    this.selectValues = Array.from(
+      { length: this.draggable?.data?.length },
+      (_, i) => i + 1
+    );
   }
 
   private _moveIdxExtremity(
