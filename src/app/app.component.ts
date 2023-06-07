@@ -69,8 +69,6 @@ export class AppComponent {
 
   private _hasMovedItem = false;
 
-  private _rankingForm: FormGroup;
-
   constructor(private _formBuilder: FormBuilder) {}
 
   ngOnInit() {
@@ -238,18 +236,5 @@ export class AppComponent {
 
   get hasMovedItem(): boolean {
     return this._hasMovedItem;
-  }
-
-  get rankingForm(): FormGroup {
-    return this._rankingForm;
-  }
-
-  get optionList(): FormArray {
-    //return this._rankingForm.get('optionList');
-    return this._rankingForm.get('optionList') as FormArray;
-  }
-
-  get selectIdx(): FormArray {
-    return this._rankingForm.get('selectIdx') as FormArray;
   }
 }
