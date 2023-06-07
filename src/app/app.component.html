@@ -1,6 +1,62 @@
 <pre>select simple </pre>
 
-<div class="dndList">
+<div class="list-group">
+  <div class="row">
+    <div class="col">
+      <div
+        (dndDrop)="onDragAndDropOption($event)"
+        [dndDraggable]="draggable"
+        class="dndList"
+        dndDropzone
+      >
+        <div class="list-item dndPlaceholder" dndPlaceholderRef></div>
+
+        <div
+          *ngFor="let item of draggable.data; let i = index"
+          [dndDraggable]="item"
+          [dndEffectAllowed]="draggable.effectAllowed"
+          (dndStart)="onDragStart($event, item)"
+          class="list-group-item"
+        >
+          <div *ngIf="draggable.handle" class="drag-handle bg-warning"></div>
+
+          <select
+            [id]="identifier + '-select-' + i"
+            (change)="onSelectChange(draggable, i, $event)"
+            [value]="selectValues[i]"
+          >
+            <option disabled [selected]="!hasMovedItem" value="">-</option>
+            <option
+              *ngFor="
+                let a of [].constructor(draggable?.data?.length);
+                let j = index
+              "
+              [value]="j + 1"
+              [disabled]="j === i"
+            >
+              {{ j + 1 }}
+            </option>
+          </select>
+          <span class="list-item-content">{{ item.content }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br />
+
+  <button
+    umiusButton
+    umiShape="link"
+    class="has-no-min-width is-sm float-right"
+    (click)="setOrResetList()"
+    type="button"
+  >
+    <span translate="">QUIZ.CLEARALL</span>
+  </button>
+</div>
+
+<!-- <div class="dndList">
   <div *ngFor="let item of draggable?.data; let i = index">
     <select
       [id]="identifier + '-select-' + i"
@@ -18,4 +74,4 @@
     </select>
     <span class="list-item-content">{{ item.content }}</span>
   </div>
-</div>
+</div> -->

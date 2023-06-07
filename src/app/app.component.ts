@@ -14,6 +14,7 @@ interface DropzoneLayout {
 @Component({
   selector: 'my-app',
   //selector: 'dnd-list',
+  styleUrls: ['./app.component.scss'],
   templateUrl: './app.component.html',
 })
 export class AppComponent {
@@ -118,7 +119,6 @@ export class AppComponent {
     let canDragAndDrop = this._allowDragAndDrop(START_INDEX, END_INDEX);
 
     if (canDragAndDrop) {
-      this._hasMovedItem = true;
       if (END_INDEX === indexMax || END_INDEX === 0) {
         list = this._moveIdxExtremity(START_INDEX, END_INDEX, list);
       } else {
@@ -142,13 +142,13 @@ export class AppComponent {
 
   changeSelectIndex(draggable: any) {
     console.log(this.hasMovedItem);
-    if (this.hasMovedItem === true) {
-      console.log(draggable.data);
-      this.selectValues = draggable.data.map((opt) => opt.identifier);
-      setTimeout(() => {
-        this.resetIndex();
-      }, 1000);
-    }
+    // if (this.hasMovedItem === true) {
+    console.log(draggable.data);
+    this.selectValues = draggable.data.map((opt) => opt.identifier);
+    setTimeout(() => {
+      this.resetIndex();
+    }, 500);
+    //}
   }
 
   resetIndex() {
