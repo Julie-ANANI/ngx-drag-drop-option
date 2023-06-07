@@ -100,11 +100,6 @@ export class AppComponent {
     const indexMax = list?.length - 1;
 
     let idx = this._getEndIndex(event);
-    console.log('[Idx]', idx);
-
-    console.log('event', event);
-    console.log('fromIndex event', fromIndex);
-    console.log('fromIndex dragevent', this._fromIndex);
 
     let START_INDEX = 0;
 
@@ -121,20 +116,13 @@ export class AppComponent {
 
     let canDragAndDrop = this._allowDragAndDrop(START_INDEX, END_INDEX);
 
-    console.log('START_INDEX', START_INDEX);
-    console.log('END_INDEX', END_INDEX);
-
     if (canDragAndDrop) {
-      console.log('je suis entrée dans mon canDragAndDrop');
       if (END_INDEX === indexMax || END_INDEX === 0) {
-        console.log('EXTREMITY');
         list = this._moveIdxExtremity(START_INDEX, END_INDEX, list);
       } else {
         if (Math.abs(diff) === 1) {
-          console.log('CLOSE IDX');
           list = this._moveCloseIdx(START_INDEX, END_INDEX, list);
         } else {
-          console.log('TWO IDX');
           list = this._moveTwoIdxSameTime(START_INDEX, END_INDEX, list);
         }
       }
@@ -144,56 +132,6 @@ export class AppComponent {
 
     //end function
     console.groupEnd();
-    return list;
-  }
-
-  onSelectChange(draggable: any, index: number, event: Event) {
-    const updatedIndex = [...Object.keys(draggable.data)];
-    // Modifier l'index du tableau par rapport à la sélection
-    this.onMoveSelectIndex(event, index, updatedIndex);
-
-    // Mettre à jour les options de déplacement
-    this.onDragAndDropOption(event, index);
-
-    // Réinitialiser les index des sélecteurs sans modifier les index des options
-    this.resetIndex(index);
-  }
-
-  onMoveSelectIndex(
-    event: Event | DndDropEvent,
-    fromIndex?: number,
-    tab?: any[]
-  ): Array<any> {
-    let list = tab;
-    const indexMax = list?.length - 1;
-    let idx = this._getEndIndex(event);
-    let START_INDEX = 0;
-
-    if (!!this._fromIndex) {
-      START_INDEX = this._fromIndex;
-    }
-
-    if (!!fromIndex) {
-      START_INDEX = fromIndex;
-    }
-
-    const END_INDEX = idx;
-    const diff = START_INDEX - END_INDEX;
-
-    let canDragAndDrop = this._allowDragAndDrop(START_INDEX, END_INDEX);
-
-    if (canDragAndDrop) {
-      if (END_INDEX === indexMax || END_INDEX === 0) {
-        list = this._moveIdxExtremity(START_INDEX, END_INDEX, list);
-      } else {
-        if (Math.abs(diff) === 1) {
-          list = this._moveCloseIdx(START_INDEX, END_INDEX, list);
-        } else {
-          list = this._moveTwoIdxSameTime(START_INDEX, END_INDEX, list);
-        }
-      }
-    }
-
     this._changeSelectIndex();
     return list;
   }
@@ -291,13 +229,6 @@ export class AppComponent {
       this.update.emit(list.map((v: any) => v.identifier));
       console.log();
     }
-  }
-
-  setOrResetList() {
-    //this._userRankingList = JSON.parse(JSON.stringify(this._randomizedOptions));
-    this.userRankingList.forEach((element, index) => (element.index = index));
-    this._hasMovedItem = false;
-    this.emitUpdate();
   }
 
   get hasMovedItem(): boolean {

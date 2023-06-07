@@ -9,7 +9,7 @@
       [id]="identifier + '-select-' + i"
       (change)="onDragAndDropOption($event, i)"
     >
-      <option [selected]="!hasMovedItem" value="">-</option>
+      <option disabled [selected]="!hasMovedItem" value="">-</option>
       <option
         [selected]="hasMovedItem ? i === j : false"
         *ngFor="let a of [].constructor(draggable?.data?.length); let j = index"
@@ -23,10 +23,10 @@
 
 <br />
 
-<button
+<!-- <button
   class="has-no-min-width is-sm float-right"
   (click)="setOrResetList()"
   type="button"
 >
   <span translate="">CLEARALL</span>
-</button>
+</button> -->
