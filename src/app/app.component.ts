@@ -137,6 +137,25 @@ export class AppComponent {
     return list;
   }
 
+  onSelectChange(draggable: any, index: number, event: Event) {
+    this.onDragAndDropOption(event, index);
+    this.changeSelectIndex(draggable);
+  }
+
+  changeSelectIndex(draggable: any) {
+    if (this.hasMovedItem === true) {
+      const updatedIndex = draggable.data.map((_, i) => i + 1);
+      this.resetIndex(updatedIndex);
+    }
+  }
+
+  resetIndex(index: number[]) {
+    // Réinitialiser les index à leur valeur par défaut
+    this.selectIdx.controls.forEach((control, i) => {
+      control.setValue(index[i]);
+    });
+  }
+
   private _changeSelectIndex() {
     if (this.hasMovedItem === true) {
       //read ordre index
@@ -144,14 +163,6 @@ export class AppComponent {
       //et mettre la valeur des index changé
       //puis reset et mettre la valeur de 1 à n
     }
-  }
-
-  resetIndex(index: any) {
-    // Réinitialiser les index à leur valeur par défaut
-    index = Array.from(
-      { length: this.draggable?.data?.length },
-      (_, i) => i + 1
-    );
   }
 
   private _moveIdxExtremity(
