@@ -6,14 +6,14 @@
       [id]="identifier + '-select-' + i"
       (change)="onDragAndDropOption($event, i)"
     >
-      <option [selected]="!hasMovedItem" value="">-</option>
-      <ng-container
+      <option disabled [selected]="!hasMovedItem" value="">-</option>
+      <option
         *ngFor="let a of [].constructor(draggable?.data?.length); let j = index"
+        [value]="j + 1"
+        [disabled]="j === i"
       >
-        <ng-container *ngIf="j !== i">
-          <option [value]="j + 1">{{ j + 1 }}</option>
-        </ng-container>
-      </ng-container>
+        {{ j + 1 }}
+      </option>
     </select>
     <span class="list-item-content">{{ item.content }}</span>
   </div>

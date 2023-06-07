@@ -117,6 +117,7 @@ export class AppComponent {
     let canDragAndDrop = this._allowDragAndDrop(START_INDEX, END_INDEX);
 
     if (canDragAndDrop) {
+      this._hasMovedItem = true;
       if (END_INDEX === indexMax || END_INDEX === 0) {
         list = this._moveIdxExtremity(START_INDEX, END_INDEX, list);
       } else {
@@ -132,7 +133,7 @@ export class AppComponent {
 
     //end function
     console.groupEnd();
-    this._changeSelectIndex();
+    //this._changeSelectIndex();
     return list;
   }
 
