@@ -1,21 +1,19 @@
 <pre>select simple </pre>
 
 <div class="dndList">
-  <div
-    *ngFor="let item of draggable?.data; let i = index"
-    class="list-group-item"
-  >
+  <div *ngFor="let item of draggable?.data; let i = index">
     <select
       [id]="identifier + '-select-' + i"
       (change)="onDragAndDropOption($event, i)"
     >
-      <option disabled [selected]="!hasMovedItem" value="">-</option>
-      <option
-        [selected]="hasMovedItem ? i === j : false"
+      <option [selected]="!hasMovedItem" value="">-</option>
+      <ng-container
         *ngFor="let a of [].constructor(draggable?.data?.length); let j = index"
       >
-        {{ j + 1 }}
-      </option>
+        <ng-container *ngIf="j !== i">
+          <option [value]="j + 1">{{ j + 1 }}</option>
+        </ng-container>
+      </ng-container>
     </select>
     <span class="list-item-content">{{ item.content }}</span>
   </div>
