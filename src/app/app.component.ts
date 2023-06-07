@@ -131,10 +131,7 @@ export class AppComponent {
 
       this.emitUpdate(list);
     }
-
-    //end function
     console.groupEnd();
-    //this._changeSelectIndex();
     return list;
   }
 
@@ -155,7 +152,6 @@ export class AppComponent {
   }
 
   resetIndex() {
-    // Réinitialiser les index à leur valeur par défaut
     this.selectValues = Array.from(
       { length: this.draggable?.data?.length },
       (_, i) => i + 1

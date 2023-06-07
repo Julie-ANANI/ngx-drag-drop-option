@@ -1,24 +1,5 @@
 <pre>select simple </pre>
 
-<!-- <div class="dndList">
-  <div *ngFor="let item of draggable?.data; let i = index">
-    <select
-      [id]="identifier + '-select-' + i"
-      (change)="onSelectChange($event, i)"
-    >
-      <option disabled [selected]="!hasMovedItem" value="">-</option>
-      <option
-        *ngFor="let a of [].constructor(draggable?.data?.length); let j = index"
-        [value]="j + 1"
-        [disabled]="j === i"
-      >
-        {{ j + 1 }}
-      </option>
-    </select>
-    <span class="list-item-content">{{ item.content }}</span>
-  </div>
-</div> -->
-
 <div class="dndList">
   <div *ngFor="let item of draggable?.data; let i = index">
     <select
@@ -38,13 +19,3 @@
     <span class="list-item-content">{{ item.content }}</span>
   </div>
 </div>
-
-<br />
-
-<!-- <button
-  class="has-no-min-width is-sm float-right"
-  (click)="setOrResetList()"
-  type="button"
->
-  <span translate="">CLEARALL</span>
-</button> -->
