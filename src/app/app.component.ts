@@ -25,27 +25,27 @@ export class AppComponent {
   userRankingList: any[] = [
     {
       content: 'Option 1',
-      identifier: '1',
+      identifier: '0',
       _id: '641db69e767a363706b7e4eb',
     },
     {
       content: 'Option 2',
-      identifier: '2',
+      identifier: '1',
       _id: '641db69o767a363706b7e9eb',
     },
     {
       content: 'Option 3',
-      identifier: '3',
+      identifier: '2',
       _id: '641db69e797a363706b7e4eb',
     },
     {
       content: 'Option 4',
-      identifier: '4',
+      identifier: '3',
       _id: '641do69e767a363706b7e4eb',
     },
     {
       content: 'Option 5',
-      identifier: '5',
+      identifier: '4',
       _id: '641dp69e767a363706g7e4eb',
     },
   ];
@@ -142,11 +142,16 @@ export class AppComponent {
     console.log(this.hasMovedItem);
     // if (this.hasMovedItem === true) {
     console.log(draggable.data);
-    this.selectValues = draggable.data.map((opt) => opt.identifier);
+    this.selectValues = draggable.data.map((opt: any) => {
+      if (opt?.identifier === 0) {
+        return 1;
+      } else {
+        return opt.identifier;
+      }
+    });
     setTimeout(() => {
       this.resetIndex();
     }, 500);
-    //}
   }
 
   resetIndex() {
